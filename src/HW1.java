@@ -3,7 +3,8 @@ import java.util.Scanner;
 
 public class HW1 {
 	static Scanner sc = new Scanner(System.in);
-	static int quantity,choice,total=0,price1=0,price2=0,price3=0,quantity1,quantity2,quantity3,all;
+	static int quantity,choice,total=0,price1=0,price2=0,price3=0,quantity1,quantity2,quantity3,all,vat,discount;
+	static String coupon;
 	static int pizza(int pizza){
 		price1 = quantity*250;
 		quantity1=quantity1+quantity;
@@ -22,7 +23,15 @@ public class HW1 {
 		total=total+price3;
 		return coke;
 	}
+	static void discount(int discount){
+		if(coupon.equals("y")){
+			discount = total*5/100;
+			System.out.printf("| Coupon                                  |   %5d     |\n",discount);
+		}
+	}
 	static int table(int all){
+			vat = total*7/100;
+			discount=total*5/100;
 			System.out.println("+------- Menu --------+------- Qty -------+--- Price ---+");
 			if(price1 !=0){
 				System.out.printf("| Pizza               |     %5d         |   %5d     |\n",quantity1,quantity1*250);
@@ -32,13 +41,17 @@ public class HW1 {
 					System.out.printf("| Coke                |     %5d         |   %5d     |\n",quantity3,quantity3*45);
 				}
 			System.out.println("+---------------------+-------------------+-------------+");
-			System.out.printf("| Total                                   |   %5d     |\n",total);
+			if(coupon.equals("y")){
+				discount(discount);
+			}
+			System.out.printf("| Vat7%%                                   |   %5d     |\n",vat);
+			System.out.printf("| Total                                   |   %5d     |\n",total+vat-discount);
 			System.out.println("+-----------------------------------------+-------------+");
 			System.out.println("");
 		return all;
 	}
 
-		public static void main(String[] args) {
+		static void homework() {
 			int pizza=250,chicken=120,coke=45;
 			System.out.println("--------- Welcome to SKE Restaurant --------");
 			System.out.printf("1.) Pizza\t %5d Baht.\n",pizza);
@@ -54,7 +67,13 @@ public class HW1 {
 					System.out.println("================= Thank you =================");
 					break;
 				}if(choice == 4){
+					System.out.print("Do you have a discount coupon (y/n): ");
+					coupon = sc.next();
 					table(all);
+					if(total>=1000){
+						System.out.println("You get 5% discount coupon next time.");
+						System.out.println("");
+					}
 				}
 				if(choice != 4){
 					System.out.print("Enter Quantity: ");
@@ -74,5 +93,8 @@ public class HW1 {
 					break;
 				}}
 			}while(choice!=5);
+		}
+		public static void main(String[] args) {
+			homework();
 		}
 }
